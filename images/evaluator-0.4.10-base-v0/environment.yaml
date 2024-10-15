@@ -1,0 +1,19 @@
+name: evaluator-0.4.10
+channels:
+  - conda-forge
+  - openeye
+  - defaults
+
+dependencies:
+  - openff-evaluator ==0.4.10
+  - openeye-toolkits
+  - ambertools
+  - rdkit
+  - forcebalance
+
+  - dask ==2024.2.1
+
+  - cachey
+  - streamz
+  - nomkl
+  - cmake
