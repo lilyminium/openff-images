@@ -36,3 +36,23 @@ jobs:
           echo $CHANGED_IMAGES
           echo "{changed_images}={$CHANGED_IMAGES}" >> $GITHUB_OUTPUT
 
+  build-deploy-docker:
+    needs: get-new-images
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: ${{ fromJson(needs.get-new-images.outputs.changed_images) }}
+    steps:
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v6
+        with:
+          context: images/${{ matrix.image }}
+          push: ${{ github.event.workflow_run.branch == 'main' }}
+          tags: ghcr.io/${{ github.repository }}:${{ matrix.image }}
