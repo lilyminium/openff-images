@@ -34,7 +34,10 @@ jobs:
           # diff between @main and current
           CHANGED_IMAGES=$(git diff --name-only origin/main ${{ github.sha }} images/ | xargs -n 1 dirname | xargs -n 1 basename | uniq | sort -u)
           echo $CHANGED_IMAGES
-          echo "{changed_images}={$CHANGED_IMAGES}" >> $GITHUB_OUTPUT
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "CHANGED_IMAGES<<$EOF" >> $GITHUB_OUTPUT
+          echo $CHANGED_IMAGES >> $GITHUB_OUTPUT
+          echo "$EOF" >> $GITHUB_OUTPUT
 
   build-deploy-docker:
     needs: get-new-images
