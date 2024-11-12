@@ -28,13 +28,26 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           abort-after-seconds: 60
+
+      - name: Figure out which reference commit to use
+        if: github.event_name == 'pull_request'
+        run: |
+          # echo to GITHUB_ENV
+          echo "REF_COMMIT='origin/main'" >> $GITHUB_ENV
+
+      - name: Figure out which reference commit to use
+        if: github.event_name == 'push'
+        run: |
+          # echo to GITHUB_ENV
+          PREVIOUS_COMMIT=$(git rev-parse HEAD^)
+          echo "REF_COMMIT=$PREVIOUS_COMMIT" >> $GITHUB_ENV
       
       - name: Figure out which images have changed, getting parent directory
         id: changed_images
         run: |
           git fetch --depth=1 origin +refs/heads/main:refs/remotes/origin/main
           # diff between @main and current
-          CHANGED_IMAGES=$(git diff --name-only origin/main ${{ github.sha }} images/ | xargs -n 1 dirname | xargs -n 1 basename | uniq | sort -u)
+          CHANGED_IMAGES=$(git diff --name-only $REF_COMMIT ${{ github.sha }} images/ | xargs -n 1 dirname | xargs -n 1 basename | uniq | sort -u)
           echo $CHANGED_IMAGES
 
           # join together with quotes and commas
