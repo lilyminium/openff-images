@@ -36,6 +36,11 @@ jobs:
           # diff between @main and current
           CHANGED_IMAGES=$(git diff --name-only origin/main ${{ github.sha }} images/ | xargs -n 1 dirname | xargs -n 1 basename | uniq | sort -u)
           echo $CHANGED_IMAGES
+
+          # join together with quotes and commas
+          CHANGED_IMAGES=$(printf ",'%s'" ${CHANGED_IMAGES[@]})
+          echo $CHANGED_IMAGES
+
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "CHANGED_IMAGES<<$EOF" >> $GITHUB_OUTPUT
           echo $CHANGED_IMAGES >> $GITHUB_OUTPUT
@@ -66,5 +71,5 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: images/${{ matrix.image }}
-          push: ${{ github.event.workflow_run.branch == 'main' }}
+          push: ${{ github.event_name == 'push' }}
           tags: ghcr.io/${{ github.repository }}:${{ matrix.image }}
