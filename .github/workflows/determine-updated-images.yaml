@@ -39,6 +39,13 @@ jobs:
           echo $CHANGED_IMAGES >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
 
+  diagnose:
+  needs: get-new-images
+  runs-on: ubuntu-latest
+  steps:
+    - name: Log changed images
+      run: echo ${{ needs.get-new-images.outputs.changed_images }}
+
   build-deploy-docker:
     needs: get-new-images
     runs-on: ubuntu-latest
