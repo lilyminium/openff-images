@@ -39,6 +39,7 @@ jobs:
 
           # join together with quotes and commas
           CHANGED_IMAGES=$(printf "{'image': '%s'}," ${CHANGED_IMAGES[@]})
+          CHANGED_IMAGES="[${CHANGED_IMAGES%}]"
           echo $CHANGED_IMAGES
 
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
