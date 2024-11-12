@@ -1,0 +1,33 @@
+name: Determine updated images
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+
+jobs:
+  get-new-images:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: ensure we only have one instance running
+        uses: softprops/turnstyle@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          abort-after-seconds: 60
+      
+      - name: Figure out which images have changed, getting parent directory
+        id: changed_images
+        run: |
+          echo "::set-output name=changed_images::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} images/ | xargs -n 1 dirname | uniq | sort -u)"
