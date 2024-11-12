@@ -64,6 +64,9 @@ jobs:
   build-deploy-docker:
     needs: get-new-images
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         include: ${{ fromJson(needs.get-new-images.outputs.changed_images) }}
