@@ -20,7 +20,7 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: ensure we only have one instance running
         uses: softprops/turnstyle@master
@@ -62,7 +62,11 @@ jobs:
         include: ${{ fromJson(needs.get-new-images.outputs.changed_images) }}
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
       - name: Log in to the Container registry
+        if: github.event_name == 'push'
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ghcr.io
