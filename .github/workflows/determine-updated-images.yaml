@@ -32,5 +32,7 @@ jobs:
         run: |
           git fetch --depth=1 origin +refs/heads/main:refs/remotes/origin/main
           # diff between @main and current
-          echo $(git diff --name-only origin/main ${{ github.sha }} images/ | xargs -n 1 dirname | uniq | sort -u)
-          echo "::set-output name=changed_images::$(git diff --name-only origin/main ${{ github.sha }} images/ | xargs -n 1 dirname | uniq | sort -u)"
+          CHANGED_IMAGES=$(git diff --name-only origin/main ${{ github.sha }} images/ | xargs -n 1 dirname | xargs -n 1 basename | uniq | sort -u)
+          echo $CHANGED_IMAGES
+          echo "{changed_images}={$CHANGED_IMAGES}" >> $GITHUB_OUTPUT
+
