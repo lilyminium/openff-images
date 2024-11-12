@@ -30,4 +30,5 @@ jobs:
       - name: Figure out which images have changed, getting parent directory
         id: changed_images
         run: |
+          echo $(git diff --name-only ${{ github.event.before }} ${{ github.sha }} images/)
           echo "::set-output name=changed_images::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} images/ | xargs -n 1 dirname | uniq | sort -u)"
