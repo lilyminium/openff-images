@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+    outputs:
+      changed_images: ${{ steps.changed_images.outputs.CHANGED_IMAGES }}
     
     steps:
       - name: Checkout repository
@@ -44,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Log changed images
-        run: echo ${{ needs.get-new-images.outputs.changed_images }}
+        run: echo "${{ needs.get-new-images.outputs.changed_images }}"
 
   build-deploy-docker:
     needs: get-new-images
