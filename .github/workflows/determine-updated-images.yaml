@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: ensure we only have one instance running
         uses: softprops/turnstyle@master
@@ -45,7 +47,6 @@ jobs:
       - name: Figure out which images have changed, getting parent directory
         id: changed_images
         run: |
-          git fetch --depth=1 origin +refs/heads/main:refs/remotes/origin/main
           # diff between @main and current
           CHANGED_IMAGES=$(git diff --name-only $REF_COMMIT ${{ github.sha }} images/ | xargs -n 1 dirname | xargs -n 1 basename | uniq | sort -u)
           echo $CHANGED_IMAGES
