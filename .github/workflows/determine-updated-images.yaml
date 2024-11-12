@@ -33,7 +33,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           # echo to GITHUB_ENV
-          echo "REF_COMMIT='origin/main'" >> $GITHUB_ENV
+          echo "REF_COMMIT=origin/main" >> $GITHUB_ENV
 
       - name: Figure out which reference commit to use
         if: github.event_name == 'push'
