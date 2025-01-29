@@ -2,7 +2,7 @@ name: evaluator-0.4.10-k8s
 channels:
   - conda-forge
   - openeye
-  - nvidia/label/cuda-12.4.0
+  - defaults
 
 dependencies:
   - python
@@ -10,11 +10,8 @@ dependencies:
 
   # evaluator dependencies copied from conda recipe
   - openff-toolkit-base >=0.11.0
-  - openff-units !=0.2.3
   - openff-interchange-base ~=0.3.18
   - pandas =1
-  - cuda-toolkit ==12.4.0
-
   - openmm >=7.6,<9
   - networkx
   - pymbar
@@ -42,7 +39,6 @@ dependencies:
   # https://github.com/conda-forge/pymbar-feedstock/issues/30
   - jax >=0.3
   - jaxlib >=0.3
-  - jupyterlab
 
 
   - openeye-toolkits
@@ -61,4 +57,4 @@ dependencies:
 
   - pip:
     # k8s branch of openff-evaluator
-    - git+https://github.com/lilyminium/openff-evaluator.git@add-iteration-0
+    - git+https://github.com/lilyminium/openff-evaluator.git@add-kubernetes-backend

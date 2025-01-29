@@ -1,4 +1,4 @@
-FROM ghcr.io/lilyminium/openff-images:tmp-evaluator-base-v2
+FROM ghcr.io/lilyminium/openff-images:evaluator-0.4.10-kubernetes-backend-base-v0
 
 COPY prepare.sh /usr/bin/prepare.sh
 
