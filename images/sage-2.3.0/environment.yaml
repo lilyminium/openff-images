@@ -1,0 +1,76 @@
+name: sage-2.3.0
+channels:
+  - conda-forge
+  - openeye
+  - nvidia/label/cuda-12.4.0
+
+dependencies:
+  - python
+  - pip
+
+  # OpenFF
+  - openff-toolkit-base >=0.11.0
+  - openff-nagl
+  - openff-units !=0.2.3
+  - openff-interchange-base ~=0.3.18
+  - openff-qcsubmit
+  - openff-bespokefit
+  - qcportal
+  - qubekit
+  - ndcctools
+
+  # Evaluator relevant
+  - pandas =1
+  - cuda-toolkit ==12.4.0
+  - openmm >=7.6,<9
+  - networkx
+  - pymbar
+  # https://github.com/openforcefield/openff-evaluator/issues/470#issuecomment-1248878110
+  - mdtraj !=1.9.5
+  - dask >=2.7.0
+  - distributed >=2.7.0
+  - dask-jobqueue >=0.8.0
+  - uncertainties
+  # https://github.com/openforcefield/openff-evaluator/compare/v0.4.3...c6fb94346d0b8110089f644033e93ade7023e4e5#diff-1fbd3f1fb4002bd59bde4c5b1501a1ac0a580dd70b9bcf05cfb35ef066e4b0f9
+  - openmmtools >=0.22,<0.24
+  - pyyaml
+  - requests
+  - rdkit
+  - python-dateutil
+  - pydantic
+  # some AmberTools 23.6 builds include packmol (and therefore can't be
+  # installed alongside the standalone packmol package!) so this may
+  # cause some issue in the future if/when a newer version of AmberTools
+  # **must** be used. Right now, builds are stalled, so it's not clear
+  # when version 24 and newer will be online in conda-forge
+  - packmol
+
+  - pint >0.21,<0.24
+  # https://github.com/conda-forge/pymbar-feedstock/issues/30
+  - jax >=0.3
+  - jaxlib >=0.3
+  - jupyterlab
+
+
+  - openeye-toolkits
+  - ambertools
+  - rdkit
+  - forcebalance >=1.9.5
+
+  - dask
+  - dask-kubernetes
+
+  - cachey
+  - streamz
+  - nomkl
+  - cmake
+
+  - ipykernel
+  - seaborn
+  - mdanalysis
+  - click
+  - click-option-group
+
+  - pip:
+    - git+https://github.com/openforcefield/openff-evaluator.git@add-discard-initial
+    - git+https://github.com/openforcefield/yammbs.git
